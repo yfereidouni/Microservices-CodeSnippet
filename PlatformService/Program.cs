@@ -31,11 +31,11 @@ using (var scope = app.Services.CreateScope())
     await PrepDb.SeedData(services);
 };
 
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseHttpsRedirection();
 
