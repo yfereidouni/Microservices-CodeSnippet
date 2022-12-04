@@ -8,12 +8,27 @@ builder.Services.AddDbContext<AppDbContext>(opt => {
     opt.UseInMemoryDatabase("InMem");
 });
 
+builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    //Auto-Migrate Database
+    //var context = services.GetRequiredService<AppDbContext>();
+    //context.Database.Migrate();
+
+    // Preparing default values for DB
+    await PrepDb.SeedData(services);
+};
 
 if (app.Environment.IsDevelopment())
 {
